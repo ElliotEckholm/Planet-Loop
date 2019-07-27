@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D572E5F22DECCAE008BEB09 /* Archive.love in Resources */ = {isa = PBXBuildFile; fileRef = 0D572E5E22DECCAE008BEB09 /* Archive.love */; };
-		0D572E6022DECCAE008BEB09 /* Archive.love in Resources */ = {isa = PBXBuildFile; fileRef = 0D572E5E22DECCAE008BEB09 /* Archive.love */; };
+		0DA1561622ECE41C0029894A /* Archive.love in Resources */ = {isa = PBXBuildFile; fileRef = 0DA1561522ECE41C0029894A /* Archive.love */; };
+		0DA1561722ECE41C0029894A /* Archive.love in Resources */ = {isa = PBXBuildFile; fileRef = 0DA1561522ECE41C0029894A /* Archive.love */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A9255DD31043183600BA1496 /* Lua.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A93E6E5310420B57007D418B /* Lua.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A9255E031043195A00BA1496 /* vorbis.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A9255E021043195A00BA1496 /* vorbis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -101,7 +101,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0D572E5E22DECCAE008BEB09 /* Archive.love */ = {isa = PBXFileReference; lastKnownFileType = file; name = Archive.love; path = ../../../Archive.love; sourceTree = "<group>"; };
+		0DA1561522ECE41C0029894A /* Archive.love */ = {isa = PBXFileReference; lastKnownFileType = file; name = Archive.love; path = ../../../Archive.love; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Planet Loop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Planet Loop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9255E021043195A00BA1496 /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = /Library/Frameworks/vorbis.framework; sourceTree = "<absolute>"; };
@@ -199,7 +199,7 @@
 		29B97314FDCFA39411CA2CEA /* love */ = {
 			isa = PBXGroup;
 			children = (
-				0D572E5E22DECCAE008BEB09 /* Archive.love */,
+				0DA1561522ECE41C0029894A /* Archive.love */,
 				FA5D249A1A96CF4300C6FC8F /* Images.xcassets */,
 				FA577A9D16C7262E00860150 /* Source */,
 				FA5D24A01A96CF7200C6FC8F /* Supporting Files */,
@@ -389,7 +389,7 @@
 			files = (
 				FA5933751C6D625B000EC779 /* Images.xcassets in Resources */,
 				FAC1A449196F5DC600125284 /* license.txt in Resources */,
-				0D572E5F22DECCAE008BEB09 /* Archive.love in Resources */,
+				0DA1561622ECE41C0029894A /* Archive.love in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,7 +399,7 @@
 			files = (
 				FA5D249C1A96CF4300C6FC8F /* Images.xcassets in Resources */,
 				FA7C636A1A9C49570000FD29 /* Launch Screen.xib in Resources */,
-				0D572E6022DECCAE008BEB09 /* Archive.love in Resources */,
+				0DA1561722ECE41C0029894A /* Archive.love in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

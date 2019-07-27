@@ -36,3 +36,15 @@ end
 -- for the inheriting scene class
 function Scene:hide()
 end
+
+function love.touchpressed( id, x, y, dx, dy, pressure )
+end
+
+function love.touchreleased(id, x, y, dx, dy, pressure)
+end
+
+function beginContact(a, b, coll)
+end
+
+function endContact(a, b, coll)
+end

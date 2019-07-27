@@ -38,12 +38,12 @@ end
 
 -- If a scene was set with "goToScene(sceneName)" then update that scene
 -- This function must be called in love.update()
-function Composer:updateCurrentScene()
+function Composer:updateCurrentScene(dt)
 	if self._currentScene ~= nil then
 		if self._lastScene ~= nil then
 			self._lastScene:hide()
 		end
-		self._currentScene:update()
+		self._currentScene:update(dt)
 	else
 		error( "Scene does not exist!")
 		error( "Scenes loaded "..#Composer._sceneList)
@@ -93,7 +93,7 @@ end
 function Composer:removeScene(sceneName)
 	for k, scene in pairs(Composer._sceneList) do
 		if scene._name == sceneName then
-			if self._currentScene == scene then 
+			if self._currentScene == scene then
 				print("Can not remove scene because it is the current shown scene!")
 				break
 			else
@@ -122,4 +122,3 @@ function Composer:removeLastScene()
 		end
 	end
 end
-
