@@ -16,7 +16,10 @@ Gamestate = require "gamestate"
 require ("objects/stars")
 require ("objects/comets")
 
+local screen = {}
 
+screen.w = love.graphics.getWidth()
+screen.h = love.graphics.getHeight()
 
 
 
@@ -470,43 +473,54 @@ end
 
 end
 
-function love.touchpressed( id, x, y, dx, dy, pressure )
-    touchPressed = true
-    touchReleased = false
-
-		 print("Pressed!")
-
-    local touches2 = love.touch.getTouches()
-    for i, id in ipairs(touches2) do
-      touch.x, touch.y = love.touch.getPosition(id)
-
-    end
-
-    -- if (composer:currentSceneName() == "Level_1")  then
-
-      if (touch.x < button.x + button.width and touch.x > button.x and
-        touch.y < button.y + button.height and touch.y > button.y) then
-            print("Launch!")
-            launchPressed = true
-          else
-            launchPressed = false
-
-          end
-      -- end
-
-
---[[
-      if composer:currentSceneName() ~= Pause and numTouches == 2  then
-          return Gamestate.push(Pause)
-      elseif numTouches == 2 then
-          return Gamestate.pop() -- return to previous state
-      end
---]]
-
-end
+-- function love.touchpressed( id, x, y, dx, dy, pressure )
+--
+--       -- end
+--
+--       touchPressed = true
+--       touchReleased = false
+--
+--       print("Touch Pressed!")
+--
+--       local touches2 = love.touch.getTouches()
+--       for i, id in ipairs(touches2) do
+--         touch.x, touch.y = love.touch.getPosition(id)
+--       end
+--
+--
+--       print(touch.x)
+--       print(button.x + button.width)
+--
+--       if (touch.x < button.x + button.width and touch.x > button.x and
+--         touch.y < button.y + button.height and touch.y > button.y) then
+--             print("Launch!")
+--             launchPressed = true
+--           else
+--             launchPressed = false
+--
+--         end
+--
+--
+-- --[[
+--       if composer:currentSceneName() ~= Pause and numTouches == 2  then
+--           return Gamestate.push(Pause)
+--       elseif numTouches == 2 then
+--           return Gamestate.pop() -- return to previous state
+--       end
+-- --]]
+--
+-- end
 
 function  love.touchreleased(id, x, y, dx, dy, pressure)
     touchReleased = true
+
+
+    -- launched = love.touchpressed( id, x, y, dx, dy, pressure );
+    -- print(launched)
+
+    -- if (composer:currentSceneName() == "Level_1")  then
+
+
     --touchPressed = false
 
 -- if (composer:currentSceneName() == "Level_1") then
@@ -531,6 +545,8 @@ function  love.touchreleased(id, x, y, dx, dy, pressure)
 
       --touch.x, touch.y = love.touch.getPosition(touches[numTouches].id)
     end
+
+    print("Touch Released")
 
 
 
