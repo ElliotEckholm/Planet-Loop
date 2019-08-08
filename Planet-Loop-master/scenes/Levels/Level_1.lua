@@ -71,7 +71,7 @@ distance2 = {}
 g2 = {}
 gravforce2 = {}
 
-button = {}
+level1_launch_button = {}
 
 
 moonCollision.hit = false
@@ -81,10 +81,12 @@ planet2Collision = false
 planet1Looped = false
 planet2Looped = false
 
-button.x = screen.w - 80
-button.y = screen.h - 80
-button.width = 50
-button.height = 50
+level1_launch_button.x = screen.w - 80
+level1_launch_button.y = screen.h - 80
+level1_launch_button.width = 50
+level1_launch_button.height = 50
+
+cometTimer = 1
 
 world = love.physics.newWorld(0, 0, false)
 
@@ -186,112 +188,20 @@ function Level_1:initialize()
 end
 
 
---
--- function Level_1:enter()
---
---   moonCollision.hit = false
---
---   planet1Collision = false
---   planet2Collision = false
---   planet1Looped = false
---   planet2Looped = false
---
---   button.x = screen.w - 80
---   button.y = screen.h - 80
---   button.width = 50
---   button.height = 50
---
---   world = love.physics.newWorld(0, 0, false)
---
---       sun.b = love.physics.newBody(world, 50 ,screen.h /2 + 13, "dynamic")
---       sun.b:setMass(10)
---       sun.s = love.physics.newCircleShape(5)
---       sun.f = love.physics.newFixture(sun.b, sun.s)
---       sun.f:setRestitution(-1)    -- make it bouncy
---       sun.f:setUserData("sun")
---
---       moon.b = love.physics.newBody(world, 0, 0, "static")
---       moon.b:setMass(10)
---       --moon.s = love.physics.newRectangleShape(30, 60)
---       --moon.s = love.physics.newPolygonShape( screen.w/2, screen.h /2,
---       --screen.w/2 - 30, screen.h /2 - 30, screen.w/2 - 40, screen.h /2 + 40)
---       moon.s = love.physics.newPolygonShape( screen.w - 40, screen.h /2,
---       screen.w - 20, screen.h /2 + 10,   screen.w - 20, screen.h /2 + 30,
---       screen.w - 40, screen.h /2 + 40, screen.w - 30, screen.h /2 + 30,
---       screen.w - 30, screen.h /2 + 10)--]]
---       moon.f = love.physics.newFixture(moon.b, moon.s)
---       moon.f:setRestitution(-1)    -- make it bouncy
---       moon.f:setUserData("moon")
---
---       earth.b = love.physics.newBody(world, 50 ,screen.h /2 , "static")
---       earth.b:setMass(20)
---       earth.s = love.physics.newCircleShape(15)
---       earth.f = love.physics.newFixture(earth.b, earth.s)
---       earth.f:setRestitution(0)    -- make it bouncy
---       --planet.b:setGravityScale( 0.0 )
---       earth.f:setUserData("earth")
---
---
---       planet1.b = love.physics.newBody(world, screen.w / 2 + 70 ,screen.h /2 , "static")
---       planet1.b:setMass(20)
---       planet1.s = love.physics.newCircleShape(10)
---       planet1.f = love.physics.newFixture(planet1.b, planet1.s)
---       planet1.f:setRestitution(-1)    -- make it bouncy
---       --planet.b:setGravityScale( 0.0 )
---       planet1.f:setUserData("planet1")
---
---       planet2.b = love.physics.newBody(world, screen.w / 2 - 70 ,screen.h /2 - 50 , "static")
---       planet2.b:setMass(20)
---       planet2.s = love.physics.newCircleShape(10)
---       planet2.f = love.physics.newFixture(planet2.b, planet2.s)
---       planet2.f:setRestitution(-1)    -- make it bouncy
---       --planet.b:setGravityScale( 0.0 )
---       planet2.f:setUserData("planet2")
---
---
---
--- ----[[
---   bottomWall = {}
---       bottomWall.b = love.physics.newBody(world, screen.w / 2,screen.h , "static")
---       bottomWall.s = love.physics.newRectangleShape(screen.w,20)
---       bottomWall.f = love.physics.newFixture(bottomWall.b, bottomWall.s)
---       bottomWall.f:setUserData("bottomWall")
---   topWall = {}
---       topWall.b = love.physics.newBody(world, screen.w / 2,0 , "static")
---       topWall.s = love.physics.newRectangleShape(screen.w,20)
---       topWall.f = love.physics.newFixture(topWall.b, topWall.s)
---       topWall.f:setUserData("topWall")
---   leftWall = {}
---       leftWall.b = love.physics.newBody(world, 0 , screen.h / 2 , "static")
---       leftWall.s = love.physics.newRectangleShape(20,screen.h)
---       leftWall.f = love.physics.newFixture(leftWall.b, leftWall.s)
---       leftWall.f:setUserData("leftWall")
---   rightWall = {}
---       rightWall.b = love.physics.newBody(world, screen.w , screen.h / 2 , "static")
---       rightWall.s = love.physics.newRectangleShape(20,screen.h)
---       rightWall.f = love.physics.newFixture(rightWall.b, rightWall.s)
---       rightWall.f:setUserData("rightWall")
--- --]]
---     -- setup entities here
---
---
---     local img = love.graphics.newImage('pictures/particle.png')
---
---     	psystem = love.graphics.newParticleSystem(img, 32)
---     	psystem:setParticleLifetime(4, 6) -- Particles live at least 2s and at most 5s.
---     	psystem:setEmissionRate(5)
---     	psystem:setSizeVariation(1)
---     	psystem:setLinearAcceleration(-7, -7, 7, 7) -- Random movement in all directions.
---     	psystem:setColors(255, 255, 255, 255, 255, 255, 255, 0) -- Fade to transparency.
---
--- end
-
-
-
-
 function Level_1:update(dt)
 
+  stars:update()
 
+  -- --create new comet every frame update
+  -- cometTimer = cometTimer - dt
+  --  if cometTimer <= 0 then
+  --    comet:new()
+  --    local leftover = math.abs(cometTimer)
+  --    cometTimer = 1 - leftover
+  --  end
+  --
+  --
+  -- if comet.e then comet:update(dt) end
 
 
 
@@ -391,6 +301,14 @@ function Level_1:update(dt)
 end
 
 function Level_1:draw()
+
+  --draw stars
+	stars:draw()
+
+  --draw comets
+	if comet.e then comet:draw() end
+
+
   --Line segment between sun and finger tap
   if (launchPressed == false) then
     love.graphics.setColor(255, 0, 0, 150)
@@ -456,11 +374,11 @@ love.graphics.polygon( "line", moon.s:getPoints() )
   love.graphics.polygon("line", rightWall.b:getWorldPoints(rightWall.s:getPoints()))
   --]]
 
-  --launch button
+  --launch level1_launch_button
   love.graphics.setColor(200, 0, 0, 150)
-  love.graphics.rectangle("fill", button.x, button.y, button.width, button.height)
+  love.graphics.rectangle("fill", level1_launch_button.x, level1_launch_button.y, level1_launch_button.width, level1_launch_button.height)
   love.graphics.setColor(255, 255, 255, 150)
-  love.graphics.print("LAUNCH",button.x , button.y + 16)
+  love.graphics.print("LAUNCH",level1_launch_button.x , level1_launch_button.y + 16)
 
 
 if (planetCollision.delayParticles > 0) then
@@ -489,10 +407,10 @@ end
 --
 --
 --       print(touch.x)
---       print(button.x + button.width)
+--       print(level1_launch_button.x + level1_launch_button.width)
 --
---       if (touch.x < button.x + button.width and touch.x > button.x and
---         touch.y < button.y + button.height and touch.y > button.y) then
+--       if (touch.x < level1_launch_button.x + level1_launch_button.width and touch.x > level1_launch_button.x and
+--         touch.y < level1_launch_button.y + level1_launch_button.height and touch.y > level1_launch_button.y) then
 --             print("Launch!")
 --             launchPressed = true
 --           else

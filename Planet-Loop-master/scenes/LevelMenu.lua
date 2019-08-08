@@ -24,10 +24,18 @@ screen.w = love.graphics.getWidth()
 screen.h = love.graphics.getHeight()
 bigFont = love.graphics.newFont(50)
 medFont = love.graphics.newFont(30)
+smallFont = love.graphics.newFont(10)
 nasaRed = {252 /255, 61/255, 33/255, 1}
 nasaBlue = {11 /255, 61/255, 145/255, 1}
 
+
 cometTimer = 1
+
+level1_button = {}
+level1_button.x = screen.w/4
+level1_button.y = screen.h/3
+level1_button.width = 50
+level1_button.height = 50
 
 -- inheriting from Scene
 LevelMenu = Scene:subclass("LevelMenu")
@@ -72,10 +80,18 @@ function LevelMenu:draw()
 
 	--Draw title
 	love.graphics.setFont(bigFont)
-	love.graphics.setColor(unpack(nasaRed))
-	love.graphics.print("Level         ",screen.w / 2 - (bigFont:getWidth("Level         ")/2) , screen.h / 2 - (bigFont:getHeight("Level         ")/2))
-	love.graphics.setColor(unpack(nasaBlue))
-	love.graphics.print("         Menu",screen.w / 2 - (bigFont:getWidth("         Menu")/2) , screen.h / 2 - (bigFont:getHeight("         Menu")/2))
+	love.graphics.setColor(1,1,1)
+	love.graphics.print("Level         ",screen.w / 2 - (bigFont:getWidth("Level         ")/2) , screen.h / 6 - (bigFont:getHeight("Level         ")/2))
+	love.graphics.setColor(1,1,1)
+	love.graphics.print("         Menu",screen.w / 2 - (bigFont:getWidth("         Menu")/2) , screen.h / 6 - (bigFont:getHeight("         Menu")/2))
+
+
+	--launch level1_button
+  love.graphics.setColor(unpack(nasaBlue))
+  love.graphics.rectangle("fill", level1_button.x, level1_button.y, level1_button.width, level1_button.height)
+	love.graphics.setFont(medFont)
+	love.graphics.setColor(1,1,1)
+  love.graphics.print("1",level1_button.x + 16, level1_button.y +  10)
 
 end
 

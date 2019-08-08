@@ -56,40 +56,35 @@ end
 
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
-    local touches = love.touch.getTouches()
 
 		print("Touch Pressed")
 
-		-- end
-
-		touchPressed = true
-		touchReleased = false
-
-	
-
-		local touches2 = love.touch.getTouches()
-		for i, id in ipairs(touches2) do
+		local touches = love.touch.getTouches()
+		for i, id in ipairs(touches) do
 			touch.x, touch.y = love.touch.getPosition(id)
 		end
-
-
-		-- print(touch.x)
-		-- print(button.x + button.width)
-
-		if (touch.x < button.x + button.width and touch.x > button.x and
-			touch.y < button.y + button.height and touch.y > button.y) then
-					print("Launch!")
-					launchPressed = true
-				else
-					launchPressed = false
-
-			end
 
 		for i, id in ipairs(touches) do
 			if composer:currentSceneName() == "Welcome" then
 				composer:goToScene("LevelMenu")
 			elseif composer:currentSceneName() == "LevelMenu" then
-				composer:goToScene("Level_1")
+				if (touch.x < level1_button.x + level1_button.width and touch.x > level1_button.x and
+					touch.y < level1_button.y + level1_button.height and touch.y > level1_button.y) then
+							print("Level 1 Selected")
+							composer:goToScene("Level_1")
+
+				end
+
+
+
+			elseif composer:currentSceneName() == "Level_1" then
+				if (touch.x < level1_launch_button.x + level1_launch_button.width and touch.x > level1_launch_button.x and
+					touch.y < level1_launch_button.y + level1_launch_button.height and touch.y > level1_launch_button.y) then
+							print("Launch!")
+							launchPressed = true
+						else
+							launchPressed = false
+				end
 			end
 
     end
