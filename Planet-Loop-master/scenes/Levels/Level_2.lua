@@ -24,7 +24,7 @@ screen.h = love.graphics.getHeight()
 
 
 -- inheriting from Scene
-Level_1 = Scene:subclass("Level_1")
+Level_2 = Scene:subclass("Level_2")
 launchPressed = false
 touchPressed = false
 touchReleased = false
@@ -71,7 +71,7 @@ distance2 = {}
 g2 = {}
 gravforce2 = {}
 
-level1_launch_button = {}
+level2_launch_button = {}
 
 
 moonCollision.hit = false
@@ -81,10 +81,10 @@ planet2Collision = false
 planet1Looped = false
 planet2Looped = false
 
-level1_launch_button.x = screen.w - 80
-level1_launch_button.y = screen.h - 80
-level1_launch_button.width = 50
-level1_launch_button.height = 50
+level2_launch_button.x = screen.w - 80
+level2_launch_button.y = screen.h - 80
+level2_launch_button.width = 50
+level2_launch_button.height = 50
 
 cometTimer = 1
 
@@ -176,19 +176,19 @@ rightWall = {}
 
 -- every scene must have an initialize function
 -- here goes everything that has to be done once and before the scene is shown
-function Level_1:initialize()
+function Level_2:initialize()
 	-- call super.initialize is crucial, so are the arguments self and name (Scene1)
 	-- each scene must have a unique name
-	Scene.initialize(self, "Level_1")
+	Scene.initialize(self, "Level_2")
 
-	-- Level_1 = Gamestate.new()
+	-- Level_2 = Gamestate.new()
 
 
 
 end
 
 
-function Level_1:update(dt)
+function Level_2:update(dt)
 
   stars:update()
 
@@ -300,7 +300,7 @@ function Level_1:update(dt)
 --]]
 end
 
-function Level_1:draw()
+function Level_2:draw()
 
   --draw stars
 	stars:draw()
@@ -374,11 +374,11 @@ love.graphics.polygon( "line", moon.s:getPoints() )
   love.graphics.polygon("line", rightWall.b:getWorldPoints(rightWall.s:getPoints()))
   --]]
 
-  --launch level1_launch_button
+  --launch level2_launch_button
   love.graphics.setColor(200, 0, 0, 150)
-  love.graphics.rectangle("fill", level1_launch_button.x, level1_launch_button.y, level1_launch_button.width, level1_launch_button.height)
+  love.graphics.rectangle("fill", level2_launch_button.x, level2_launch_button.y, level2_launch_button.width, level2_launch_button.height)
   love.graphics.setColor(255, 255, 255, 150)
-  love.graphics.print("LAUNCH",level1_launch_button.x , level1_launch_button.y + 16)
+  love.graphics.print("LAUNCH",level2_launch_button.x , level2_launch_button.y + 16)
 
 
 if (planetCollision.delayParticles > 0) then
@@ -407,10 +407,10 @@ end
 --
 --
 --       print(touch.x)
---       print(level1_launch_button.x + level1_launch_button.width)
+--       print(level2_launch_button.x + level2_launch_button.width)
 --
---       if (touch.x < level1_launch_button.x + level1_launch_button.width and touch.x > level1_launch_button.x and
---         touch.y < level1_launch_button.y + level1_launch_button.height and touch.y > level1_launch_button.y) then
+--       if (touch.x < level2_launch_button.x + level2_launch_button.width and touch.x > level2_launch_button.x and
+--         touch.y < level2_launch_button.y + level2_launch_button.height and touch.y > level2_launch_button.y) then
 --             print("Launch!")
 --             launchPressed = true
 --           else
@@ -436,12 +436,12 @@ function  love.touchreleased(id, x, y, dx, dy, pressure)
     -- launched = love.touchpressed( id, x, y, dx, dy, pressure );
     -- print(launched)
 
-    -- if (composer:currentSceneName() == "Level_1")  then
+    -- if (composer:currentSceneName() == "Level_2")  then
 
 
     --touchPressed = false
 
--- if (composer:currentSceneName() == "Level_1") then
+-- if (composer:currentSceneName() == "Level_2") then
 
     local t = {
     		id = id,
@@ -584,7 +584,7 @@ end
 -- will automatically be called by the composer
 -- so code to make this scene ready to be hidden goes here
 -- eg. stop playing sounds etc...
-function Level_1:hide()
+function Level_2:hide()
 end
 
 
@@ -606,4 +606,4 @@ end
 
 -- Creating a new instance
 -- this can be called everywhere as long as it is legit to love
-Level_1:new()
+Level_2:new()

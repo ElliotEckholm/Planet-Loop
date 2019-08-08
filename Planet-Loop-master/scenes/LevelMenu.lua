@@ -37,6 +37,12 @@ level1_button.y = screen.h/3
 level1_button.width = 50
 level1_button.height = 50
 
+level2_button = {}
+level2_button.x = screen.w/4 + 100
+level2_button.y = screen.h/3
+level2_button.width = 50
+level2_button.height = 50
+
 -- inheriting from Scene
 LevelMenu = Scene:subclass("LevelMenu")
 
@@ -86,12 +92,19 @@ function LevelMenu:draw()
 	love.graphics.print("         Menu",screen.w / 2 - (bigFont:getWidth("         Menu")/2) , screen.h / 6 - (bigFont:getHeight("         Menu")/2))
 
 
-	--launch level1_button
+	-----Level 1 Button----
   love.graphics.setColor(unpack(nasaBlue))
   love.graphics.rectangle("fill", level1_button.x, level1_button.y, level1_button.width, level1_button.height)
 	love.graphics.setFont(medFont)
 	love.graphics.setColor(1,1,1)
   love.graphics.print("1",level1_button.x + 16, level1_button.y +  10)
+
+	-----Level 2 Button----
+  love.graphics.setColor(unpack(nasaBlue))
+  love.graphics.rectangle("fill", level2_button.x, level2_button.y, level2_button.width, level2_button.height)
+	love.graphics.setFont(medFont)
+	love.graphics.setColor(1,1,1)
+  love.graphics.print("2",level2_button.x + 16, level2_button.y +  10)
 
 end
 
