@@ -98,6 +98,24 @@ function love.touchpressed( id, x, y, dx, dy, pressure )
 							launchPressed = false
 				end
 
+
+
+				if (touch.x < pause_button.x + pause_button.width and touch.x > pause_button.x and
+					touch.y < pause_button.y + pause_button.height and touch.y > pause_button.y) then
+						print("restart!")
+						print(restartPressed)
+						restartPressed = true
+						composer:goToScene("LevelMenu")
+
+						composer:goToScene("Level_1")
+						-- love.load()
+						-- composer:drawCurrentScene()
+						Level_1:initialize()
+				else
+					restartPressed = false
+
+				end
+
 			elseif composer:currentSceneName() == "Level_2" then
 				if (touch.x < level2_launch_button.x + level2_launch_button.width and touch.x > level2_launch_button.x and
 					touch.y < level2_launch_button.y + level2_launch_button.height and touch.y > level2_launch_button.y) then

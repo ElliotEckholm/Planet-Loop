@@ -25,151 +25,6 @@ screen.h = love.graphics.getHeight()
 
 -- inheriting from Scene
 Level_1 = Scene:subclass("Level_1")
-launchPressed = false
-touchPressed = false
-touchReleased = false
-touch = {}
-lastTouch = {}
-currentTouch = {}
-local touches = {}
-planetCollision = {
-    delayParticles = 0
-}
-
-numTouches = {
-  balance = 0,
-}
-
-moonCollision = {
-    delayWin = 0,
-    hit = false
-}
-
-loseDelay = 0
-
-
-
-sun = {}
-touchDistance = {}
-launchConstant = {}
-launchForce = {}
-
-moon = {}
-
-earth = {}
-earthDistance = {}
-earthConstant = {}
-earthGravforce = {}
-
-planet1 = {}
-distance1 = {}
-g1 = {}
-gravforce1 = {}
-
-planet2 = {}
-distance2 = {}
-g2 = {}
-gravforce2 = {}
-
-level1_launch_button = {}
-
-
-moonCollision.hit = false
-
-planet1Collision = false
-planet2Collision = false
-planet1Looped = false
-planet2Looped = false
-
-level1_launch_button.x = screen.w - 80
-level1_launch_button.y = screen.h - 80
-level1_launch_button.width = 50
-level1_launch_button.height = 50
-
-cometTimer = 1
-
-world = love.physics.newWorld(0, 0, false)
-
-		sun.b = love.physics.newBody(world, 50 ,screen.h /2 + 13, "dynamic")
-		sun.b:setMass(10)
-		sun.s = love.physics.newCircleShape(5)
-		sun.f = love.physics.newFixture(sun.b, sun.s)
-		sun.f:setRestitution(-1)    -- make it bouncy
-		sun.f:setUserData("sun")
-
-		moon.b = love.physics.newBody(world, 0, 0, "static")
-		moon.b:setMass(10)
-		--moon.s = love.physics.newRectangleShape(30, 60)
-		--moon.s = love.physics.newPolygonShape( screen.w/2, screen.h /2,
-		--screen.w/2 - 30, screen.h /2 - 30, screen.w/2 - 40, screen.h /2 + 40)
-		moon.s = love.physics.newPolygonShape( screen.w - 40, screen.h /2,
-		screen.w - 20, screen.h /2 + 10,   screen.w - 20, screen.h /2 + 30,
-		screen.w - 40, screen.h /2 + 40, screen.w - 30, screen.h /2 + 30,
-		screen.w - 30, screen.h /2 + 10)--]]
-		moon.f = love.physics.newFixture(moon.b, moon.s)
-		moon.f:setRestitution(-1)    -- make it bouncy
-		moon.f:setUserData("moon")
-
-		earth.b = love.physics.newBody(world, 50 ,screen.h /2 , "static")
-		earth.b:setMass(20)
-		earth.s = love.physics.newCircleShape(15)
-		earth.f = love.physics.newFixture(earth.b, earth.s)
-		earth.f:setRestitution(0)    -- make it bouncy
-		--planet.b:setGravityScale( 0.0 )
-		earth.f:setUserData("earth")
-
-
-		planet1.b = love.physics.newBody(world, screen.w / 2 + 70 ,screen.h /2 , "static")
-		planet1.b:setMass(20)
-		planet1.s = love.physics.newCircleShape(10)
-		planet1.f = love.physics.newFixture(planet1.b, planet1.s)
-		planet1.f:setRestitution(-1)    -- make it bouncy
-		--planet.b:setGravityScale( 0.0 )
-		planet1.f:setUserData("planet1")
-
-		planet2.b = love.physics.newBody(world, screen.w / 2 - 70 ,screen.h /2 - 50 , "static")
-		planet2.b:setMass(20)
-		planet2.s = love.physics.newCircleShape(10)
-		planet2.f = love.physics.newFixture(planet2.b, planet2.s)
-		planet2.f:setRestitution(-1)    -- make it bouncy
-		--planet.b:setGravityScale( 0.0 )
-		planet2.f:setUserData("planet2")
-
-
-
-----[[
-bottomWall = {}
-		bottomWall.b = love.physics.newBody(world, screen.w / 2,screen.h , "static")
-		bottomWall.s = love.physics.newRectangleShape(screen.w,20)
-		bottomWall.f = love.physics.newFixture(bottomWall.b, bottomWall.s)
-		bottomWall.f:setUserData("bottomWall")
-topWall = {}
-		topWall.b = love.physics.newBody(world, screen.w / 2,0 , "static")
-		topWall.s = love.physics.newRectangleShape(screen.w,20)
-		topWall.f = love.physics.newFixture(topWall.b, topWall.s)
-		topWall.f:setUserData("topWall")
-leftWall = {}
-		leftWall.b = love.physics.newBody(world, 0 , screen.h / 2 , "static")
-		leftWall.s = love.physics.newRectangleShape(20,screen.h)
-		leftWall.f = love.physics.newFixture(leftWall.b, leftWall.s)
-		leftWall.f:setUserData("leftWall")
-rightWall = {}
-		rightWall.b = love.physics.newBody(world, screen.w , screen.h / 2 , "static")
-		rightWall.s = love.physics.newRectangleShape(20,screen.h)
-		rightWall.f = love.physics.newFixture(rightWall.b, rightWall.s)
-		rightWall.f:setUserData("rightWall")
---]]
-	-- setup entities here
-
-
-	local img = love.graphics.newImage('pictures/particle.png')
-
-		psystem = love.graphics.newParticleSystem(img, 32)
-		psystem:setParticleLifetime(4, 6) -- Particles live at least 2s and at most 5s.
-		psystem:setEmissionRate(5)
-		psystem:setSizeVariation(1)
-		psystem:setLinearAcceleration(-7, -7, 7, 7) -- Random movement in all directions.
-		psystem:setColors(255, 255, 255, 255, 255, 255, 255, 0) -- Fade to transparency.
 
 
 
@@ -179,7 +34,177 @@ rightWall = {}
 function Level_1:initialize()
 	-- call super.initialize is crucial, so are the arguments self and name (Scene1)
 	-- each scene must have a unique name
-	Scene.initialize(self, "Level_1")
+
+
+  -- if restartPressed == true then
+  --   restartPressed = false
+  --   Scene.initialize(self, "Level_1")
+	--   Level_1:draw()
+  --
+  -- else
+    Scene.initialize(self, "Level_1")
+  -- end
+
+
+
+  launchPressed = false
+  touchPressed = false
+  touchReleased = false
+  touch = {}
+  lastTouch = {}
+  currentTouch = {}
+  local touches = {}
+  planetCollision = {
+      delayParticles = 0
+  }
+
+  numTouches = {
+    balance = 0,
+  }
+
+  moonCollision = {
+      delayWin = 0,
+      hit = false
+  }
+
+  loseDelay = 0
+
+
+
+  sun = {}
+  touchDistance = {}
+  launchConstant = {}
+  launchForce = {}
+
+  moon = {}
+
+  earth = {}
+  earthDistance = {}
+  earthConstant = {}
+  earthGravforce = {}
+
+  planet1 = {}
+  distance1 = {}
+  g1 = {}
+  gravforce1 = {}
+
+  planet2 = {}
+  distance2 = {}
+  g2 = {}
+  gravforce2 = {}
+
+
+  restartPressed = false
+
+  moonCollision.hit = false
+
+  planet1Collision = false
+  planet2Collision = false
+  planet1Looped = false
+  planet2Looped = false
+
+
+  bigFont = love.graphics.newFont(50)
+  medFont = love.graphics.newFont(30)
+  smallFont = love.graphics.newFont(10)
+
+  pause_button = {}
+  pause_button.x = 20
+  pause_button.y =  20
+  pause_button.width = 40
+  pause_button.height = 40
+
+  level1_launch_button = {}
+  level1_launch_button.x = screen.w - 80
+  level1_launch_button.y = screen.h - 80
+  level1_launch_button.width = 50
+  level1_launch_button.height = 50
+
+  cometTimer = 1
+
+  world = love.physics.newWorld(0, 0, false)
+
+  		sun.b = love.physics.newBody(world, 50 ,screen.h /2 + 13, "dynamic")
+  		sun.b:setMass(10)
+  		sun.s = love.physics.newCircleShape(5)
+  		sun.f = love.physics.newFixture(sun.b, sun.s)
+  		sun.f:setRestitution(-1)    -- make it bouncy
+  		sun.f:setUserData("sun")
+
+  		moon.b = love.physics.newBody(world, 0, 0, "static")
+  		moon.b:setMass(10)
+  		--moon.s = love.physics.newRectangleShape(30, 60)
+  		--moon.s = love.physics.newPolygonShape( screen.w/2, screen.h /2,
+  		--screen.w/2 - 30, screen.h /2 - 30, screen.w/2 - 40, screen.h /2 + 40)
+  		moon.s = love.physics.newPolygonShape( screen.w - 40, screen.h /2,
+  		screen.w - 20, screen.h /2 + 10,   screen.w - 20, screen.h /2 + 30,
+  		screen.w - 40, screen.h /2 + 40, screen.w - 30, screen.h /2 + 30,
+  		screen.w - 30, screen.h /2 + 10)--]]
+  		moon.f = love.physics.newFixture(moon.b, moon.s)
+  		moon.f:setRestitution(-1)    -- make it bouncy
+  		moon.f:setUserData("moon")
+
+  		earth.b = love.physics.newBody(world, 50 ,screen.h /2 , "static")
+  		earth.b:setMass(20)
+  		earth.s = love.physics.newCircleShape(15)
+  		earth.f = love.physics.newFixture(earth.b, earth.s)
+  		earth.f:setRestitution(0)    -- make it bouncy
+  		--planet.b:setGravityScale( 0.0 )
+  		earth.f:setUserData("earth")
+
+
+  		planet1.b = love.physics.newBody(world, screen.w / 2 + 70 ,screen.h /2 , "static")
+  		planet1.b:setMass(20)
+  		planet1.s = love.physics.newCircleShape(10)
+  		planet1.f = love.physics.newFixture(planet1.b, planet1.s)
+  		planet1.f:setRestitution(-1)    -- make it bouncy
+  		--planet.b:setGravityScale( 0.0 )
+  		planet1.f:setUserData("planet1")
+
+  		planet2.b = love.physics.newBody(world, screen.w / 2 - 70 ,screen.h /2 - 50 , "static")
+  		planet2.b:setMass(20)
+  		planet2.s = love.physics.newCircleShape(10)
+  		planet2.f = love.physics.newFixture(planet2.b, planet2.s)
+  		planet2.f:setRestitution(-1)    -- make it bouncy
+  		--planet.b:setGravityScale( 0.0 )
+  		planet2.f:setUserData("planet2")
+
+
+
+  ----[[
+  bottomWall = {}
+  		bottomWall.b = love.physics.newBody(world, screen.w / 2,screen.h , "static")
+  		bottomWall.s = love.physics.newRectangleShape(screen.w,20)
+  		bottomWall.f = love.physics.newFixture(bottomWall.b, bottomWall.s)
+  		bottomWall.f:setUserData("bottomWall")
+  topWall = {}
+  		topWall.b = love.physics.newBody(world, screen.w / 2,0 , "static")
+  		topWall.s = love.physics.newRectangleShape(screen.w,20)
+  		topWall.f = love.physics.newFixture(topWall.b, topWall.s)
+  		topWall.f:setUserData("topWall")
+  leftWall = {}
+  		leftWall.b = love.physics.newBody(world, 0 , screen.h / 2 , "static")
+  		leftWall.s = love.physics.newRectangleShape(20,screen.h)
+  		leftWall.f = love.physics.newFixture(leftWall.b, leftWall.s)
+  		leftWall.f:setUserData("leftWall")
+  rightWall = {}
+  		rightWall.b = love.physics.newBody(world, screen.w , screen.h / 2 , "static")
+  		rightWall.s = love.physics.newRectangleShape(20,screen.h)
+  		rightWall.f = love.physics.newFixture(rightWall.b, rightWall.s)
+  		rightWall.f:setUserData("rightWall")
+  --]]
+  	-- setup entities here
+
+
+  	local img = love.graphics.newImage('pictures/particle.png')
+
+  		psystem = love.graphics.newParticleSystem(img, 32)
+  		psystem:setParticleLifetime(4, 6) -- Particles live at least 2s and at most 5s.
+  		psystem:setEmissionRate(5)
+  		psystem:setSizeVariation(1)
+  		psystem:setLinearAcceleration(-7, -7, 7, 7) -- Random movement in all directions.
+  		psystem:setColors(255, 255, 255, 255, 255, 255, 255, 0) -- Fade to transparency.
+
 
 	-- Level_1 = Gamestate.new()
 
@@ -368,17 +393,28 @@ love.graphics.polygon( "line", moon.s:getPoints() )
   end
   love.graphics.setColor(100, 100, 100, 150)
 ----[[
-  love.graphics.polygon("line", bottomWall.b:getWorldPoints(bottomWall.s:getPoints()))
-  love.graphics.polygon("line", topWall.b:getWorldPoints(topWall.s:getPoints()))
-  love.graphics.polygon("line", leftWall.b:getWorldPoints(leftWall.s:getPoints()))
-  love.graphics.polygon("line", rightWall.b:getWorldPoints(rightWall.s:getPoints()))
-  --]]
+  -- love.graphics.polygon("line", bottomWall.b:getWorldPoints(bottomWall.s:getPoints()))
+  -- love.graphics.polygon("line", topWall.b:getWorldPoints(topWall.s:getPoints()))
+  -- love.graphics.polygon("line", leftWall.b:getWorldPoints(leftWall.s:getPoints()))
+  -- love.graphics.polygon("line", rightWall.b:getWorldPoints(rightWall.s:getPoints()))
+  -- --]]
 
   --launch level1_launch_button
   love.graphics.setColor(200, 0, 0, 150)
   love.graphics.rectangle("fill", level1_launch_button.x, level1_launch_button.y, level1_launch_button.width, level1_launch_button.height)
   love.graphics.setColor(255, 255, 255, 150)
   love.graphics.print("LAUNCH",level1_launch_button.x , level1_launch_button.y + 16)
+
+
+  ----Pause Button----
+  love.graphics.setFont(medFont)
+  love.graphics.setColor(unpack(nasaBlue))
+  love.graphics.rectangle("fill", pause_button.x, pause_button.y, pause_button.width, pause_button.height)
+  love.graphics.setColor(255, 255, 255, 150)
+  love.graphics.print("||",pause_button.x + 9, pause_button.y + 1)
+
+
+
 
 
 if (planetCollision.delayParticles > 0) then
@@ -603,7 +639,14 @@ function love.draw()
     Gamestate.draw() -- <callback> is `draw'
 end
 
-
+-- if restartPressed == true then
+--   restartPressed = false
+--   Scene.initialize(self, "Level_1")
+--   Level_1:new()
+--
+-- else
+--   Level_1:new()
+-- end
 -- Creating a new instance
 -- this can be called everywhere as long as it is legit to love
 Level_1:new()
