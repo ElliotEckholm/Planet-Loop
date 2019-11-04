@@ -15,6 +15,7 @@ require("libs/Scene")
 Gamestate = require "gamestate"
 require ("objects/stars")
 require ("objects/comets")
+-- require ("objects/saturn_small")
 
 local screen = {}
 
@@ -43,7 +44,13 @@ function Level_1:initialize()
   --
   -- else
     Scene.initialize(self, "Level_1")
+
+
   -- end
+
+
+
+
 
 
 
@@ -55,6 +62,9 @@ function Level_1:initialize()
   currentTouch = {}
   local touches = {}
   planetCollision = {
+      delayParticles = 0
+  }
+  saturn_small_Collision = {
       delayParticles = 0
   }
 
@@ -83,7 +93,12 @@ function Level_1:initialize()
   earthConstant = {}
   earthGravforce = {}
 
-  planet1 = {}
+
+
+  saturn_small = {}
+  saturn_small_Collision = false
+  saturn_small_Looped = false
+
   distance1 = {}
   g1 = {}
   gravforce1 = {}
@@ -94,13 +109,13 @@ function Level_1:initialize()
   gravforce2 = {}
 
 
-  restartPressed = false
+  restartPressed = true
 
   moonCollision.hit = false
 
-  planet1Collision = false
+  -- saturn_smallCollision = false
   planet2Collision = false
-  planet1Looped = false
+  -- saturn_smallLooped = false
   planet2Looped = false
 
 
@@ -122,16 +137,18 @@ function Level_1:initialize()
 
   cometTimer = 1
 
-  world = love.physics.newWorld(0, 0, false)
+  world1 = love.physics.newWorld(0, 0, false)
 
-  		sun.b = love.physics.newBody(world, 50 ,screen.h /2 + 13, "dynamic")
+  --saturn_small = saturn_small:new(world1)
+
+  		sun.b = love.physics.newBody(world1, 50 ,screen.h /2 + 13, "dynamic")
   		sun.b:setMass(10)
   		sun.s = love.physics.newCircleShape(5)
   		sun.f = love.physics.newFixture(sun.b, sun.s)
   		sun.f:setRestitution(-1)    -- make it bouncy
   		sun.f:setUserData("sun")
 
-  		moon.b = love.physics.newBody(world, 0, 0, "static")
+  		moon.b = love.physics.newBody(world1, 0, 0, "static")
   		moon.b:setMass(10)
   		--moon.s = love.physics.newRectangleShape(30, 60)
   		--moon.s = love.physics.newPolygonShape( screen.w/2, screen.h /2,
@@ -144,7 +161,7 @@ function Level_1:initialize()
   		moon.f:setRestitution(-1)    -- make it bouncy
   		moon.f:setUserData("moon")
 
-  		earth.b = love.physics.newBody(world, 50 ,screen.h /2 , "static")
+  		earth.b = love.physics.newBody(world1, 50 ,screen.h /2 , "static")
   		earth.b:setMass(20)
   		earth.s = love.physics.newCircleShape(15)
   		earth.f = love.physics.newFixture(earth.b, earth.s)
@@ -152,16 +169,16 @@ function Level_1:initialize()
   		--planet.b:setGravityScale( 0.0 )
   		earth.f:setUserData("earth")
 
-
-  		planet1.b = love.physics.newBody(world, screen.w / 2 + 70 ,screen.h /2 , "static")
-  		planet1.b:setMass(20)
-  		planet1.s = love.physics.newCircleShape(10)
-  		planet1.f = love.physics.newFixture(planet1.b, planet1.s)
-  		planet1.f:setRestitution(-1)    -- make it bouncy
+      --
+  		saturn_small.b = love.physics.newBody(world1, screen.w / 2 + 70 ,screen.h /2 , "static")
+  		saturn_small.b:setMass(20)
+  		saturn_small.s = love.physics.newCircleShape(20)
+  		saturn_small.f = love.physics.newFixture(saturn_small.b, saturn_small.s)
+  		saturn_small.f:setRestitution(-1)    -- make it bouncy
   		--planet.b:setGravityScale( 0.0 )
-  		planet1.f:setUserData("planet1")
+  		saturn_small.f:setUserData("saturn_small")
 
-  		planet2.b = love.physics.newBody(world, screen.w / 2 - 70 ,screen.h /2 - 50 , "static")
+  		planet2.b = love.physics.newBody(world1, screen.w / 2 - 70 ,screen.h /2 - 50 , "static")
   		planet2.b:setMass(20)
   		planet2.s = love.physics.newCircleShape(10)
   		planet2.f = love.physics.newFixture(planet2.b, planet2.s)
@@ -173,22 +190,22 @@ function Level_1:initialize()
 
   ----[[
   bottomWall = {}
-  		bottomWall.b = love.physics.newBody(world, screen.w / 2,screen.h , "static")
+  		bottomWall.b = love.physics.newBody(world1, screen.w / 2,screen.h , "static")
   		bottomWall.s = love.physics.newRectangleShape(screen.w,20)
   		bottomWall.f = love.physics.newFixture(bottomWall.b, bottomWall.s)
   		bottomWall.f:setUserData("bottomWall")
   topWall = {}
-  		topWall.b = love.physics.newBody(world, screen.w / 2,0 , "static")
+  		topWall.b = love.physics.newBody(world1, screen.w / 2,0 , "static")
   		topWall.s = love.physics.newRectangleShape(screen.w,20)
   		topWall.f = love.physics.newFixture(topWall.b, topWall.s)
   		topWall.f:setUserData("topWall")
   leftWall = {}
-  		leftWall.b = love.physics.newBody(world, 0 , screen.h / 2 , "static")
+  		leftWall.b = love.physics.newBody(world1, 0 , screen.h / 2 , "static")
   		leftWall.s = love.physics.newRectangleShape(20,screen.h)
   		leftWall.f = love.physics.newFixture(leftWall.b, leftWall.s)
   		leftWall.f:setUserData("leftWall")
   rightWall = {}
-  		rightWall.b = love.physics.newBody(world, screen.w , screen.h / 2 , "static")
+  		rightWall.b = love.physics.newBody(world1, screen.w , screen.h / 2 , "static")
   		rightWall.s = love.physics.newRectangleShape(20,screen.h)
   		rightWall.f = love.physics.newFixture(rightWall.b, rightWall.s)
   		rightWall.f:setUserData("rightWall")
@@ -210,12 +227,16 @@ function Level_1:initialize()
 
 
 
+
+
 end
 
 
 function Level_1:update(dt)
 
   stars:update()
+
+
 
   -- --create new comet every frame update
   -- cometTimer = cometTimer - dt
@@ -230,15 +251,19 @@ function Level_1:update(dt)
 
 
 
+
+
   planetCollision.delayParticles = planetCollision.delayParticles - dt
+
+  -- saturn_small_Collision.delayParticles = saturn_small_Collision.delayParticles - dt
 
   moonCollision.delayWin = moonCollision.delayWin - dt
 
   psystem:update(dt)
 
 
-  world:update(dt)
-  world:setCallbacks( beginContact, endContact)
+  world1:update(dt)
+  world1:setCallbacks( beginContact, endContact)
 
   ---------------------For Earth------------------------------------------
 
@@ -261,8 +286,8 @@ function Level_1:update(dt)
   sun.b:applyForce( earthGravforce.x, earthGravforce.y, sun.b:getX(),sun.b:getY() )
 
   -----------------------For Planet 1------------------------------------------
-  distance1.x = planet1.b:getX() - sun.b:getX()
-  distance1.y = planet1.b:getY() - sun.b:getY()
+  distance1.x = saturn_small.b:getX() - sun.b:getX()
+  distance1.y = saturn_small.b:getY() - sun.b:getY()
   radius1 = math.sqrt( math.pow(distance1.x, 2) + math.pow(distance1.y, 2) )
   g1.x = 5
   g1.y = 5
@@ -306,22 +331,22 @@ function Level_1:update(dt)
 
 
   if (radius1 <= 50) then
-    planet1Looped = true
+    saturn_small_Looped = true
   elseif (radius2 <= 50) then
     planet2Looped = true
   end
 
 ----[[
-  if love.keyboard.isDown("right") then
-     sun.b:applyForce(100, 0)
-  elseif love.keyboard.isDown("left") then
-     sun.b:applyForce(-100, 0)
-  end
-  if love.keyboard.isDown("up") then
-     sun.b:applyForce(0, -100)
-  elseif love.keyboard.isDown("down") then
-     sun.b:applyForce(0, 100)
-  end
+  -- if love.keyboard.isDown("right") then
+  --    sun.b:applyForce(100, 0)
+  -- elseif love.keyboard.isDown("left") then
+  --    sun.b:applyForce(-100, 0)
+  -- end
+  -- if love.keyboard.isDown("up") then
+  --    sun.b:applyForce(0, -100)
+  -- elseif love.keyboard.isDown("down") then
+  --    sun.b:applyForce(0, 100)
+  -- end
 --]]
 end
 
@@ -330,8 +355,10 @@ function Level_1:draw()
   --draw stars
 	stars:draw()
 
+  -- saturn_small:draw()
+
   -- --draw comets
-	-- if comet.e then comet:draw() end
+	-- if saturn_small then saturn_small:draw() end
 
 
   --Line segment between sun and finger tap
@@ -367,17 +394,17 @@ love.graphics.polygon( "line", moon.s:getPoints() )
 
   --Planet1
   love.graphics.setColor(255, 0, 255, 150)
-  love.graphics.circle("line", planet1.b:getX(),planet1.b:getY(), planet1.s:getRadius(), 40)
-  --love.graphics.setColor(100, 100, 100, 150)
-  --love.graphics.circle("line", planet1.b:getX(),planet1.b:getY(), 50, 40)
-  --if (planet1Collision == true) then
+  love.graphics.circle("line", saturn_small.b:getX(),saturn_small.b:getY(), saturn_small.s:getRadius(), 40)
+  -- love.graphics.setColor(100, 100, 100, 150)
+  -- love.graphics.circle("line", saturn_small.b:getX(),saturn_small.b:getY(), 50, 40)
+  --if (saturn_smallCollision == true) then
     --love.graphics.setColor(255, 150, 0, 255)
-    --love.graphics.circle("fill", planet1.b:getX(),planet1.b:getY(), planet1.s:getRadius(), 40)
+    --love.graphics.circle("fill", saturn_small.b:getX(),saturn_small.b:getY(), saturn_small.s:getRadius(), 40)
   --end
-  if (planet1Looped == true) then
-    love.graphics.setColor(255, 150, 0, 255)
-    love.graphics.circle("fill", planet1.b:getX(),planet1.b:getY(), planet2.s:getRadius(), 40)
-  end
+  -- if (saturn_small_Looped == true) then
+  --   love.graphics.setColor(255, 150, 0, 255)
+  --   love.graphics.circle("fill", saturn_small.b:getX(),saturn_small.b:getY(), saturn_small.s:getRadius(), 40)
+  -- end
   --Planet2
   love.graphics.setColor(0, 255, 50, 150)
   love.graphics.circle("line", planet2.b:getX(),planet2.b:getY(), planet2.s:getRadius(), 40)
@@ -403,7 +430,9 @@ love.graphics.polygon( "line", moon.s:getPoints() )
   love.graphics.setColor(200, 0, 0, 150)
   love.graphics.rectangle("fill", level1_launch_button.x, level1_launch_button.y, level1_launch_button.width, level1_launch_button.height)
   love.graphics.setColor(255, 255, 255, 150)
-  love.graphics.print("LAUNCH",level1_launch_button.x , level1_launch_button.y + 16)
+  love.graphics.rectangle("fill", level1_launch_button.x + 5, level1_launch_button.y + 5, level1_launch_button.width - 10, level1_launch_button.height - 10)
+  love.graphics.setColor(255, 255, 255, 150)
+  -- love.graphics.print("LAUNCH",level1_launch_button.x , level1_launch_button.y + 16)
 
 
   ----Pause Button----
@@ -420,6 +449,10 @@ love.graphics.polygon( "line", moon.s:getPoints() )
 if (planetCollision.delayParticles > 0) then
    	   love.graphics.draw(psystem, particleX, particleY)
 end
+
+-- if (saturn_small_Collision.delayParticles > 0) then
+--    	   love.graphics.draw(psystem, particleX, particleY)
+-- end
 
 if (moonCollision.delayWin <= 0 and moonCollision.hit == true) then
   -- Gamestate.switch(Won)
@@ -561,20 +594,20 @@ function beginContact(a, b, coll)
 
 
     --vx, vy = coll:getVelocity()
-  elseif (b:getUserData() == "planet1" and a:getUserData() == "sun") then
+  elseif (b:getUserData() == "saturn_small" and a:getUserData() == "sun") then
 
-    planet1Collision = true
-    planetCollision.delayParticles = 1
-    particleX = sun.b:getX()
-    particleY = sun.b:getY()
-
-
-
-  elseif (b:getUserData() == "planet2" and a:getUserData() == "sun") then
-    planetCollision.delayParticles = 1
     planet2Collision = true
+    planetCollision.delayParticles = 1
     particleX = sun.b:getX()
     particleY = sun.b:getY()
+
+
+
+  -- elseif (b:getUserData() == "planet2" and a:getUserData() == "sun") then
+  --   planetCollision.delayParticles = 1
+  --   planet2Collision = true
+  --   particleX = sun.b:getX()
+  --   particleY = sun.b:getY()
 
 
 
@@ -602,9 +635,9 @@ function endContact(a, b, coll)
 
 
   end
-  if (b:getUserData() == "planet1" and a:getUserData() == "sun") then
+  if (b:getUserData() == "saturn_small" and a:getUserData() == "sun") then
 
-    planet1Collision = false
+    saturn_small_Collision = false
 
   end
   if (b:getUserData() == "planet2" and a:getUserData() == "sun") then
