@@ -43,7 +43,8 @@ function Level_1:initialize()
 	--   Level_1:draw()
   --
   -- else
-    Scene.initialize(self, "Level_1")
+  --   Scene.initialize(self, "Level_1")
+  -- end
 
 
   -- end
